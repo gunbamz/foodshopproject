@@ -1,3 +1,5 @@
+import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,11 +7,17 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
+  email: string;
+  password: string;
 
-  constructor() { }
+  constructor(private auth: AuthService, private router:Router,) { }
 
-  ngOnInit() {
+  onSubmit() { 
+    this.auth.createUser(this.email, this.password)
+    .then((res) => {
+      this.router.navigate(['/']);
+    })
   }
 
 }

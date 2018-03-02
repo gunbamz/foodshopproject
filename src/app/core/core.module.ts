@@ -5,19 +5,20 @@ import { HomeComponent } from './components/home/home.component';
 import { BsNavbarComponent } from './components/bs-navbar/bs-navbar.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmailComponent } from './email/email.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   imports: [
     SharedModule,
-    RouterModule.forChild([])
+    RouterModule.forChild([
+      { path: 'login/signup', component: SignUpComponent },
+      
+    ])
   ],
   declarations: [
     BsNavbarComponent,
     HomeComponent,
     LoginComponent,
-    EmailComponent,
     SignUpComponent,        
   ],
   exports: [
