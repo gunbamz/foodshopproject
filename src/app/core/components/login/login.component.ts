@@ -1,6 +1,7 @@
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string;
-  password: string;
+  user: any
+  form = new FormGroup({
+    emailName: new FormControl("", Validators.required),
+    passWord: new FormControl("", Validators.required)
+  })
 
   constructor(private authService:AuthService, private router:Router,) { }
     
@@ -18,11 +22,30 @@ export class LoginComponent {
   }
     
   submit() {
-      this.authService.emailLogin(this.email, this.password);
-      this.router.navigate(['/']);
+    if (this.form.valid){
+      this.user = this.form.value;
+
+      this.authService.emailLogin(this.user.emailName, this.user.passWord)
+       .then(res => {
+        this.router.navigate(['/']);
+       })
+        .catch((err) => {
+         if(err) {
+           this.form.setErrors({
+             invalidLogin: true
+           });
+         }
+     })
+      
+    } 
+      
   }
-  
-  
+  get emailName() {
+    return this.form.get("emailName");
+  }
+  get passWord() {
+    return this.form.get("passWord");
+  }
 }
 
 
